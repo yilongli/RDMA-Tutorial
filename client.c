@@ -111,6 +111,9 @@ void *client_thread_func (void *arg)
             if (wc[i].opcode == IBV_WC_RECV) {
 		ops_count += 1;
 		debug ("ops_count = %ld", ops_count);
+		if (ops_count % 10000 == 0) {
+		    log_info("ops_count %ld", ops_count);
+		}
 
 		if (ops_count == NUM_WARMING_UP_OPS) {
 		    gettimeofday (&start, NULL);
@@ -136,7 +139,8 @@ void *client_thread_func (void *arg)
     duration   = (double)((end.tv_sec - start.tv_sec) * 1000000 + 
 			  (end.tv_usec - start.tv_usec));
     throughput = (double)(ops_count) / duration;
-    log ("thread[%ld]: throughput = %f (Mops/s)",  thread_id, throughput);
+    double bandwidth = throughput * msg_size;
+    log ("thread[%ld]: throughput = %f (Mops/s), bandwidth = %.2f (MB/s)",  thread_id, throughput, bandwidth);
     
 
     free (wc);

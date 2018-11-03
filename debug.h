@@ -37,7 +37,7 @@ extern FILE *log_fp;
 #define log(M, ...) {log_info (M, ##__VA_ARGS__); log_file (M, ##__VA_ARGS__);}
 #else
 #define debug(M, ...)
-#define log(M, ...) {log_file (M, ##__VA_ARGS__);}
+#define log(M, ...) {log_info (M, ##__VA_ARGS__);}
 #endif
 
 #endif /* DEBUG_H_ */
